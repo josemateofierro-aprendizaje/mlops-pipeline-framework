@@ -1,0 +1,46 @@
+{
+    "dataset_name": "Iris",
+    "description": "Contrato de calidad para el dataset Iris",
+    "required_columns": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)",
+        "target"
+    ],
+    "columns": {
+        "sepal length (cm)": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "sepal width (cm)": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "petal length (cm)": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "petal width (cm)": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "target": {
+            "type": "string",
+            "nullable": false,
+            "allowed_values": [
+                "setosa",
+                "versicolor",
+                "virginica"
+            ]
+        }
+    }
+}

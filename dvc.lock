@@ -1,0 +1,86 @@
+schema: '2.0'
+stages:
+  iris_pipeline:
+    cmd: python run.py --config configs/iris.json
+    deps:
+    - path: configs/iris.json
+      hash: md5
+      md5: f9563b76cf4dc60ffff0598692373da5
+      size: 445
+    - path: contracts/iris_contract.json
+      hash: md5
+      md5: 078609b820f35968f7e2cb83c47a098b
+      size: 1133
+    - path: run.py
+      hash: md5
+      md5: 72e6d65567f8c538574c24e24e45d965
+      size: 2225
+    - path: src/
+      hash: md5
+      md5: e6c4060fa58e86e399cef43b71d11080.dir
+      size: 30141
+      nfiles: 10
+    - path: tests/
+      hash: md5
+      md5: 7028b26778d9e21f5af7adb5cd3c24cf.dir
+      size: 8014
+      nfiles: 2
+    outs:
+    - path: data/processed/iris_test.csv
+      hash: md5
+      md5: c9edb4db3b4047db780cf8382dcd5adb
+      size: 868
+    - path: data/raw/iris.csv
+      hash: md5
+      md5: 707df89a34c615064ff7f60e954f0196
+      size: 4028
+    - path: models/iris_model.joblib
+      hash: md5
+      md5: 7462a92e6c0e30a10ca6b2e307e2c386
+      size: 169491
+    - path: reports/iris_metrics.json
+      hash: md5
+      md5: 54aa2614eecbf009220dac3821af2966
+      size: 131
+  wine_pipeline:
+    cmd: python run.py --config configs/wine.json
+    deps:
+    - path: configs/wine.json
+      hash: md5
+      md5: 611c0d0cd7726f365a4299072fbbbfd5
+      size: 657
+    - path: contracts/wine_contract.json
+      hash: md5
+      md5: 1ae744c69801615ee8185289c43de966
+      size: 2563
+    - path: run.py
+      hash: md5
+      md5: 72e6d65567f8c538574c24e24e45d965
+      size: 2225
+    - path: src/
+      hash: md5
+      md5: e6c4060fa58e86e399cef43b71d11080.dir
+      size: 30141
+      nfiles: 10
+    - path: tests/
+      hash: md5
+      md5: 7028b26778d9e21f5af7adb5cd3c24cf.dir
+      size: 8014
+      nfiles: 2
+    outs:
+    - path: data/processed/wine_test.csv
+      hash: md5
+      md5: 8958102b300e147e81729296083bbfb3
+      size: 2868
+    - path: data/raw/wine.csv
+      hash: md5
+      md5: 8cc8a410925fdad2052aec8393ed374a
+      size: 13508
+    - path: models/wine_model.joblib
+      hash: md5
+      md5: 182224c9e3aea7ac45b4962cc53afab6
+      size: 213763
+    - path: reports/wine_metrics.json
+      hash: md5
+      md5: af073f7ac55a3b3c9ebd87ac3a34c7d5
+      size: 102

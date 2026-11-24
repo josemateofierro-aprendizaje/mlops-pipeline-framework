@@ -1,0 +1,27 @@
+
+{
+    "dataset_name": "wine",
+    "data_path": "data/raw/wine.csv",
+    "contract_path": "contracts/wine_contract.json",
+    "target": "target",
+    "task": "classification",
+    "numeric_features": [
+        "alcohol",
+        "malic_acid",
+        "ash",
+        "alcalinity_of_ash",
+        "magnesium",
+        "total_phenols",
+        "flavanoids",
+        "nonflavanoid_phenols",
+        "proanthocyanins",
+        "color_intensity",
+        "hue",
+        "od280/od315_of_diluted_wines",
+        "proline"
+    ],
+    "categorical_features": [],
+    "model": "random_forest",
+    "test_size": 0.2,
+    "random_state": 42
+}

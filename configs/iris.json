@@ -1,0 +1,17 @@
+{
+    "dataset_name": "iris",
+    "data_path": "data/raw/iris.csv",
+    "contract_path": "contracts/iris_contract.json",
+    "target": "target",
+    "task": "classification",
+    "numeric_features": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)"
+    ],
+    "categorical_features": [],
+    "model": "random_forest",
+    "test_size": 0.2,
+    "random_state": 42
+}

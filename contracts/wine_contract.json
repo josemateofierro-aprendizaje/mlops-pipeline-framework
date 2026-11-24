@@ -1,0 +1,108 @@
+
+{
+    "required_columns": [
+        "alcohol",
+        "malic_acid",
+        "ash",
+        "alcalinity_of_ash",
+        "magnesium",
+        "total_phenols",
+        "flavanoids",
+        "nonflavanoid_phenols",
+        "proanthocyanins",
+        "color_intensity",
+        "hue",
+        "od280/od315_of_diluted_wines",
+        "proline",
+        "target"
+    ],
+    "columns": {
+        "alcohol": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 20
+        },
+        "malic_acid": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "ash": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 5
+        },
+        "alcalinity_of_ash": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 50
+        },
+        "magnesium": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 250
+        },
+        "total_phenols": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "flavanoids": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "nonflavanoid_phenols": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 2
+        },
+        "proanthocyanins": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "color_intensity": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 20
+        },
+        "hue": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 3
+        },
+        "od280/od315_of_diluted_wines": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 10
+        },
+        "proline": {
+            "type": "number",
+            "nullable": false,
+            "min": 0,
+            "max": 3000
+        },
+        "target": {
+            "type": "string",
+            "nullable": false,
+            "allowed_values": [
+                "class_0",
+                "class_1",
+                "class_2"
+            ]
+        }
+    }
+}

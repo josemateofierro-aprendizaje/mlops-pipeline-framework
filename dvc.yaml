@@ -1,0 +1,31 @@
+
+stages:
+  iris_pipeline:
+    cmd: python run.py --config configs/iris.json
+    deps:
+      - run.py
+      - src/
+      - configs/iris.json
+      - contracts/iris_contract.json
+      - tests/
+    outs:
+      - data/raw/iris.csv
+      - data/processed/iris_test.csv
+      - models/iris_model.joblib
+    metrics:
+      - reports/iris_metrics.json
+
+  wine_pipeline:
+    cmd: python run.py --config configs/wine.json
+    deps:
+      - run.py
+      - src/
+      - configs/wine.json
+      - contracts/wine_contract.json
+      - tests/
+    outs:
+      - data/raw/wine.csv
+      - data/processed/wine_test.csv
+      - models/wine_model.joblib
+    metrics:
+      - reports/wine_metrics.json

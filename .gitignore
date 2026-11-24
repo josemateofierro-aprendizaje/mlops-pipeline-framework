@@ -1,0 +1,17 @@
+# Entornos virtuales
+venv/
+.venv/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+
+# Caché de pruebas
+.pytest_cache/
+
+# Archivos temporales
+*.log
+.DS_Store
+
+# Archivos de configuración local
+.env
