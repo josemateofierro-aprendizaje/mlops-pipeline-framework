@@ -1,24 +1,19 @@
 # Framework Genérico de Automatización de Pipelines y Control de Calidad de Datos para Machine Learning
 
-Entorno de desarrollo
+## Entorno de desarrollo
 
 El proyecto fue desarrollado y probado utilizando el siguiente entorno tecnológico:
 
-Sistema operativo: Windows.
-
-Lenguaje de programación: Python 3.14.3.
-
-Manipulación de datos: pandas 3.1.1.
-
-Machine Learning: scikit-learn 1.9.1.
-
-Persistencia de modelos: joblib 1.6.0.
-
-Pruebas automatizadas: pytest 9.2.0.
-
-Versionamiento de datos: DVC 3.67.1.
-
-Control de versiones de código: Git 2.48.1.
+| Componente | Versión |
+|---|---|
+| Sistema operativo | Windows |
+| Python | 3.14.3 |
+| pandas | 3.1.1 |
+| scikit-learn | 1.9.1 |
+| joblib | 1.6.0 |
+| pytest | 9.2.0 |
+| DVC | 3.67.1 |
+| Git | 2.48.1 |
 
 Las versiones de las dependencias se registran para facilitar la reproducción del entorno de ejecución.
 
@@ -26,7 +21,7 @@ Las versiones de las dependencias se registran para facilitar la reproducción d
 
 Este proyecto implementa un framework de automatización de pipelines de Machine Learning (MLOps), diseñado para facilitar la preparación, validación, entrenamiento y evaluación de modelos predictivos.
 
-La solución busca estandarizar el flujo de trabajo mediante configuraciones externas en formato JSON, contratos de calidad de datos y automatización de tareas. Su diseño permite incorporar diferentes conjuntos de datos sin modificar la lógica principal del entrenamiento y la evaluación, siempre que se proporcione la configuración y el contrato correspondientes.
+La solución busca estandarizar el flujo de trabajo mediante configuraciones externas en formato JSON, contratos de calidad de datos y automatización de tareas. Su diseño permite incorporar diferentes conjuntos de datos sin modificar la lógica principal de validación, entrenamiento y evaluación, siempre que se proporcione la configuración y el contrato correspondientes. La preparación de nuevas fuentes de datos puede requerir adaptaciones adicionales.
 
 Para demostrar su funcionamiento se utilizan dos conjuntos de datos de ejemplo:
 
@@ -59,11 +54,19 @@ mlops-pipeline-framework/
 │
 ├── data/
 │   ├── raw/
+│   │   ├── iris.csv
+│   │   └── wine.csv
 │   └── processed/
+│       ├── iris_test.csv
+│       └── wine_test.csv
 │
 ├── models/
+│   ├── iris_model.joblib
+│   └── wine_model.joblib
 │
 ├── reports/
+│   ├── iris_metrics.json
+│   └── wine_metrics.json
 │
 ├── src/
 │   ├── __init__.py
@@ -76,13 +79,23 @@ mlops-pipeline-framework/
 ├── tests/
 │   └── test_validation.py
 │
+├── examples/
+│   ├── valid_iris.csv
+│   ├── invalid_iris.csv
+│   ├── valid_wine.csv
+│   └── invalid_wine.csv
+│
 ├── Makefile
 ├── requirements.txt
+├── requirements-lock.txt
 ├── dvc.yaml
-├── README.md
+├── dvc.lock
 ├── run.py
+├── README.md
 └── .gitignore
 ```
+
+También se incluyen los archivos de configuración de Git y DVC, como `.dvc/` y `.dvcignore`.
 
 ### Descripción de los componentes
 
@@ -90,34 +103,38 @@ mlops-pipeline-framework/
 |---|---|
 | `configs/` | Contiene la configuración de cada conjunto de datos. |
 | `contracts/` | Define las reglas de calidad de los datos en JSON. |
-| `data/raw/` | Almacena los datos originales. |
-| `data/processed/` | Almacena los datos preparados para evaluación. |
+| `data/raw/` | Almacena los datos originales preparados. |
+| `data/processed/` | Almacena los datos de prueba para evaluación. |
 | `models/` | Almacena los modelos entrenados. |
 | `reports/` | Contiene las métricas de evaluación. |
-| `src/prepare_data.py` | Descarga o prepara los conjuntos de datos de ejemplo. |
+| `src/prepare_data.py` | Prepara los conjuntos de datos de ejemplo. |
 | `src/validate_data.py` | Comprueba el cumplimiento del contrato de datos. |
 | `src/train.py` | Ejecuta el entrenamiento del modelo. |
 | `src/evaluate.py` | Calcula las métricas de rendimiento. |
 | `src/pipeline.py` | Coordina la validación, el entrenamiento y la evaluación. |
 | `tests/` | Contiene las pruebas automáticas. |
+| `examples/` | Contiene ejemplos de registros válidos e inválidos. |
 | `run.py` | Orquesta la ejecución completa del proyecto. |
 | `dvc.yaml` | Define las etapas controladas por DVC. |
+| `dvc.lock` | Registra el estado de las etapas reproducidas por DVC. |
 
 ## 4. Requisitos previos
 
 Para ejecutar el proyecto se requiere:
 
 - Windows, Linux o macOS.
-- Python 3.12 o superior compatible con las dependencias instaladas.
+- Python 3.14.3 para reproducir el entorno probado.
 - Git.
 - DVC.
-- Conexión a Internet para preparar los conjuntos de datos de ejemplo por primera vez.
+- Las dependencias de Python especificadas en los archivos de requisitos.
 
-Las dependencias de Python están especificadas en `requirements.txt`.
+Se recomienda utilizar un entorno virtual para evitar conflictos entre dependencias.
+
+Los conjuntos Iris y Wine se obtienen mediante las herramientas de scikit-learn, por lo que no se requiere descargar manualmente archivos CSV externos.
 
 ## 5. Instalación y configuración del entorno
 
-### Paso 1. Clonar o descargar el proyecto
+### Paso 1. Obtener el proyecto
 
 Si se encuentra publicado en un repositorio Git:
 
@@ -133,37 +150,42 @@ Si se recibió como carpeta comprimida, se debe descomprimir y abrir una termina
 En Windows PowerShell:
 
 ```powershell
-python -m venv venv
+python -m venv .venv
 ```
 
 Activar el entorno:
 
 ```powershell
-.\venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 ```
 
 En Linux o macOS:
 
 ```bash
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 ```
 
 ### Paso 3. Instalar las dependencias
 
+Para instalar las dependencias principales:
+
 ```bash
 python -m pip install --upgrade pip
-
-# Instalar dependencias principales
 pip install -r requirements.txt
+```
 
-# Para reproducir el entorno completo con versiones registradas
+Para reproducir el entorno completo con las versiones registradas en el archivo de bloqueo, utilizar alternativamente:
+
+```bash
 pip install -r requirements-lock.txt
 ```
 
+No es necesario instalar ambos archivos consecutivamente. El archivo de bloqueo puede incluir dependencias adicionales y versiones específicas del entorno original.
+
 ### Paso 4. Verificar las herramientas
 
-```bash
+```powershell
 python --version
 git --version
 dvc --version
@@ -175,13 +197,13 @@ El proyecto cuenta con un orquestador principal llamado `run.py`, que permite ej
 
 ### Ejecutar con Iris
 
-```bash
+```powershell
 python run.py --config configs/iris.json
 ```
 
 ### Ejecutar con Wine
 
-```bash
+```powershell
 python run.py --config configs/wine.json
 ```
 
@@ -220,7 +242,7 @@ Ejemplo ilustrativo de una regla:
 }
 ```
 
-La validación se implementa utilizando bibliotecas estándar de Python, sin depender de librerías externas de validación de datos.
+La validación se implementa utilizando bibliotecas estándar de Python, sin depender de librerías externas especializadas en validación de datos.
 
 ### Ejemplo de registro válido
 
@@ -236,7 +258,7 @@ sepal length (cm),sepal width (cm),petal length (cm),petal width (cm),target
 11,3.5,1.4,0.2,unknown
 ```
 
-El segundo registro incumple las reglas ilustrativas del contrato porque presenta un valor fuera del rango permitido y una categoría no reconocida.
+El segundo registro incumple las reglas del contrato porque presenta un valor fuera del rango permitido y una categoría no reconocida.
 
 ## 8. Pruebas automáticas
 
@@ -244,7 +266,7 @@ El proyecto utiliza `pytest` para comprobar el funcionamiento del módulo de val
 
 Ejecutar las pruebas:
 
-```bash
+```powershell
 python -m pytest tests -v
 ```
 
@@ -261,47 +283,54 @@ Las pruebas permiten verificar que el validador identifica correctamente los inc
 
 DVC se utiliza para gestionar los datos y artefactos generados por el pipeline.
 
-El archivo `dvc.yaml` define las etapas, dependencias, salidas y métricas del proceso.
+El archivo `dvc.yaml` define dos etapas independientes:
+
+- `iris_pipeline`: ejecuta el proceso correspondiente al conjunto Iris.
+- `wine_pipeline`: ejecuta el proceso correspondiente al conjunto Wine.
+
+Cada etapa registra sus dependencias, archivos de salida y métricas de evaluación.
 
 Comandos principales:
 
 Consultar el flujo de ejecución:
 
-```bash
+```powershell
 dvc dag
 ```
 
 Ejecutar o actualizar las etapas necesarias:
 
-```bash
+```powershell
 dvc repro
 ```
 
 Forzar la ejecución:
 
-```bash
+```powershell
 dvc repro --force
 ```
 
 Consultar el estado del pipeline:
 
-```bash
+```powershell
 dvc status
 ```
 
 Consultar la sincronización con el almacenamiento remoto:
 
-```bash
+```powershell
 dvc status -c
 ```
 
 Enviar los artefactos al almacenamiento remoto:
 
-```bash
+```powershell
 dvc push
 ```
 
 En el desarrollo de este proyecto se configuró un almacenamiento remoto local llamado `localremote`. Esta configuración permite demostrar la transferencia y sincronización de los artefactos mediante DVC. No corresponde a un almacenamiento en la nube.
+
+Para reproducir el proyecto en otro equipo se debe configurar un almacenamiento remoto accesible desde ese equipo o disponer de los datos y artefactos necesarios. La ruta local utilizada durante el desarrollo no se comparte automáticamente con otros computadores.
 
 ## 10. Resultados de referencia
 
@@ -309,12 +338,16 @@ Durante las ejecuciones de prueba se obtuvieron los siguientes resultados:
 
 | Métrica | Iris | Wine |
 |---|---:|---:|
+| Registros totales | 150 | 178 |
+| Registros de entrenamiento | 120 | 142 |
+| Registros de prueba | 30 | 36 |
 | Accuracy | 0.9000 | 1.0000 |
 | Precision macro | 0.9024 | 1.0000 |
 | Recall macro | 0.9000 | 1.0000 |
 | F1 macro | 0.8997 | 1.0000 |
+| Pruebas automáticas | 4/4 | 4/4 |
 
-Los resultados corresponden a las ejecuciones realizadas con la configuración y partición de datos establecidas en el proyecto. Un resultado alto en una partición de prueba no garantiza el mismo desempeño con datos nuevos.
+Los resultados corresponden a las ejecuciones realizadas con la configuración y partición de datos establecidas en el proyecto. El resultado de Wine fue perfecto en esta partición de prueba, pero no garantiza el mismo desempeño con datos nuevos. Para una evaluación más robusta se recomienda incorporar validación cruzada.
 
 ## 11. Extensión a otros conjuntos de datos
 
@@ -327,6 +360,7 @@ Para incorporar uno nuevo se deben realizar, como mínimo, las siguientes activi
 3. Crear un archivo de configuración JSON que indique la ruta de los datos, el contrato, la variable objetivo, las características y el tipo de modelo.
 4. Adaptar el módulo de preparación para reconocer la nueva fuente de datos, si se requiere preparación automatizada.
 5. Ejecutar el pipeline y comprobar los resultados.
+6. Incorporar una etapa adicional en `dvc.yaml` para gestionar el nuevo conjunto de datos.
 
 La lógica de validación, entrenamiento y evaluación está diseñada para reutilizarse mediante configuraciones. La preparación de nuevas fuentes puede requerir una adaptación adicional.
 
@@ -336,6 +370,7 @@ La lógica de validación, entrenamiento y evaluación está diseñada para reut
 - La evaluación utiliza una partición de entrenamiento y prueba; para una validación más robusta se recomienda incorporar validación cruzada.
 - El almacenamiento remoto configurado es local, no una plataforma de nube.
 - Los resultados dependen de las características del conjunto de datos, la configuración y los parámetros del modelo.
+- La incorporación de nuevas fuentes puede requerir modificar el módulo de preparación.
 - Antes de utilizar el framework en producción se deben incorporar controles adicionales de seguridad, monitoreo, trazabilidad y gestión de datos.
 
 ## 13. Conclusión
@@ -358,7 +393,16 @@ Se probaron cuatro archivos CSV:
 Los archivos válidos generaron listas vacías de errores (`[]`).
 
 Los archivos inválidos permitieron detectar cuatro incumplimientos:
-dos relacionados con rangos numéricos y dos con categorías no permitidas.
 
-Los resultados confirman el funcionamiento del módulo de validación
-para los dos conjuntos de datos.
+- Iris: valor de longitud del sépalo por encima del máximo permitido.
+- Iris: categoría de destino no reconocida.
+- Wine: valor de alcohol por encima del máximo permitido.
+- Wine: categoría de destino no reconocida.
+
+Los resultados confirman el funcionamiento del módulo de validación para los dos conjuntos de datos.
+
+## 15. Repositorio y reproducción
+
+El código fuente, los contratos, las configuraciones y la documentación del proyecto se encuentran organizados en el repositorio `mlops-pipeline-framework`.
+
+Para reproducir los experimentos se deben seguir los pasos de instalación, configuración y ejecución descritos en este documento, verificando previamente la disponibilidad de las dependencias y del almacenamiento de datos requerido por DVC.
